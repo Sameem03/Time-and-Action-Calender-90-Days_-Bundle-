@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>90-Day Business Tracker</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d0d0d; color: #e8e8e8; min-height: 100vh; padding: 2rem 1.5rem; }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 1.5rem; color: #fff; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .phase-card { background: #1a1a1a; border: 0.5px solid #2e2e2e; border-radius: 12px; padding: 1rem 1.25rem; }
+  .phase-label { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 4px; }
+  .p1-label { color: #1D9E75; } .p2-label { color: #378ADD; } .p3-label { color: #EF9F27; }
+  .phase-title { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+  .phase-sub { font-size: 12px; color: #888; margin-bottom: 10px; }
+  .phase-desc { font-size: 13px; color: #aaa; line-height: 1.5; margin-bottom: 12px; }
+  .phase-bar { height: 2px; background: #2e2e2e; border-radius: 2px; }
+
+  .target-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .target-card { background: #1a1a1a; border-radius: 8px; padding: .75rem 1rem; }
+  .target-label { font-size: 11px; color: #888; margin-bottom: 2px; }
+  .target-amt { font-size: 20px; font-weight: 600; color: #fff; }
+  .target-note { font-size: 11px; color: #666; margin-top: 2px; }
+
+  .progress-wrap { margin-bottom: 20px; }
+  .progress-label { font-size: 12px; color: #888; margin-bottom: 6px; }
+  .progress-bar-bg { height: 4px; background: #2e2e2e; border-radius: 2px; }
+  .progress-bar-fill { height: 4px; background: #1D9E75; border-radius: 2px; transition: width .3s; }
+
+  .filter-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab { font-size: 13px; padding: 6px 14px; border-radius: 8px; border: 0.5px solid #2e2e2e; background: transparent; cursor: pointer; color: #888; transition: all .15s; }
+  .tab:hover { background: #1a1a1a; color: #ccc; }
+  .tab.active { background: #1a1a1a; color: #fff; border-color: #555; }
+
+  .week-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 0.5px solid #1e1e1e; cursor: pointer; transition: opacity .15s; }
+  .week-row:last-child { border-bottom: none; }
+  .week-row:hover { opacity: .85; }
+  .week-row.done .week-title { text-decoration: line-through; color: #555; }
+  .week-row.done .week-desc { color: #444; }
+
+  .phase-pill { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 20px; white-space: nowrap; min-width: 60px; text-align: center; flex-shrink: 0; margin-top: 2px; }
+  .pill-1 { background: #0a2e22; color: #1D9E75; }
+  .pill-2 { background: #0a1e33; color: #378ADD; }
+  .pill-3 { background: #2e1e05; color: #EF9F27; }
+
+  .week-meta { font-size: 11px; font-weight: 600; color: #555; margin-bottom: 2px; letter-spacing: .05em; }
+  .week-title { font-size: 14px; font-weight: 500; color: #e8e8e8; margin-bottom: 3px; line-height: 1.3; }
+  .week-desc { font-size: 12px; color: #666; line-height: 1.4; }
+
+  .week-check { margin-left: auto; flex-shrink: 0; width: 20px; height: 20px; border-radius: 5px; border: 0.5px solid #3a3a3a; background: transparent; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+  .week-check.checked { background: #1D9E75; border-color: #1D9E75; }
+  .week-check i { font-size: 13px; color: transparent; }
+  .week-check.checked i { color: #fff; }
+
+  @media (max-width: 560px) {
+    .phase-grid, .target-grid { grid-template-columns: 1fr; }
+    .filter-tabs { gap: 6px; }
+    .tab { font-size: 12px; padding: 5px 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>90-Day Business Roadmap</h1>
+
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="phase-label p1-label">Phase 1</div>
+      <div class="phase-title">Foundation</div>
+      <div class="phase-sub">Days 1–30 · Month 1</div>
+      <div class="phase-desc">Brand live. Etsy listed. Instagram active. First outreach sent. First product sold.</div>
+      <div class="phase-bar"></div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-label p2-label">Phase 2</div>
+      <div class="phase-title">Expansion</div>
+      <div class="phase-sub">Days 31–60 · Month 2</div>
+      <div class="phase-desc">Fiverr gigs delivering. Upwork open. 5+ products live. First $400+ month.</div>
+      <div class="phase-bar"></div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-label p3-label">Phase 3</div>
+      <div class="phase-title">Scale</div>
+      <div class="phase-sub">Days 61–90 · Month 3</div>
+      <div class="phase-desc">8+ listings. Upwork client landed. Startup Kit launched. $1,000+ month.</div>
+      <div class="phase-bar"></div>
+    </div>
+  </div>
+
+  <div class="target-grid">
+    <div class="target-card">
+      <div class="target-label">Month 1 target</div>
+      <div class="target-amt">$100–200</div>
+      <div class="target-note">First sales, platform setup</div>
+    </div>
+    <div class="target-card">
+      <div class="target-label">Month 2 target</div>
+      <div class="target-amt">$400–700</div>
+      <div class="target-note">Fiverr + Etsy combined</div>
+    </div>
+    <div class="target-card">
+      <div class="target-label">Month 3 target</div>
+      <div class="target-amt">$800–1,200</div>
+      <div class="target-note">All 3 streams active</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label" id="prog-label">0 of 12 weeks complete</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="tab active" onclick="filter('all', this)">All phases</button>
+    <button class="tab" onclick="filter('1', this)">Phase 1 — Foundation</button>
+    <button class="tab" onclick="filter('2', this)">Phase 2 — Expansion</button>
+    <button class="tab" onclick="filter('3', this)">Phase 3 — Scale</button>
+  </div>
+
+  <div id="week-list"></div>
+</div>
+
+<script>
+const weeks = [
+  {w:1, p:1, title:"Brand setup & platforms live", desc:"Gmail · Instagram · Etsy · first 4 posts"},
+  {w:2, p:1, title:"T-shirt pack + first outreach", desc:"T-shirt tech pack built · 10 DMs sent · Behance live"},
+  {w:3, p:1, title:"Fiverr live + Cargo pack complete", desc:"3 Fiverr gigs open · Cargo pack listed · GSM guide started"},
+  {w:4, p:1, title:"First client + Startup Kit planning", desc:"Bomber pack listed · First client conversation · Month 1 review"},
+  {w:5, p:2, title:"First Fiverr delivery + Windbreaker pack", desc:"First paid gig delivered · 6th product listed · Upwork profile strong"},
+  {w:6, p:2, title:"Sewing pattern + Upwork push", desc:"First sewing pattern template · Upwork first client · 500 followers target"},
+  {w:7, p:2, title:"Production documents + Behance authority", desc:"Production doc bundle built · 5 Behance case studies · Direct outreach to brands"},
+  {w:8, p:2, title:"Month 2 close + Fashion Startup Kit build", desc:"Kit planned and started · Month 2 full review · $400+ confirmed"},
+  {w:9, p:3, title:"Upwork client + authority content", desc:"Upwork first project · Long-form guide published · Instagram 750+ followers"},
+  {w:10, p:3, title:"Puffer jacket pack + student templates", desc:"9th product live · Student template started · Raise Fiverr prices"},
+  {w:11, p:3, title:"Varsity jacket + education ebook", desc:"10th product · First ebook priced at $22 · 1,000 follower push"},
+  {w:12, p:3, title:"90-day review + Month 3 close", desc:"Full business review · Plan Month 4 · $1,000+ confirmed"}
+];
+
+const pillClass = {1:'pill-1', 2:'pill-2', 3:'pill-3'};
+const pillLabel = {1:'Phase 1', 2:'Phase 2', 3:'Phase 3'};
+let done = new Set(JSON.parse(localStorage.getItem('tracker-done') || '[]'));
+let current = 'all';
+
+function save() {
+  localStorage.setItem('tracker-done', JSON.stringify([...done]));
+}
+
+function render() {
+  const list = document.getElementById('week-list');
+  const filtered = current === 'all' ? weeks : weeks.filter(w => String(w.p) === current);
+  list.innerHTML = filtered.map(w => `
+    <div class="week-row${done.has(w.w) ? ' done' : ''}" onclick="toggle(${w.w})">
+      <span class="phase-pill ${pillClass[w.p]}">${pillLabel[w.p]}</span>
+      <div style="flex:1">
+        <div class="week-meta">WEEK ${w.w}</div>
+        <div class="week-title">${w.title}</div>
+        <div class="week-desc">${w.desc}</div>
+      </div>
+      <div class="week-check${done.has(w.w) ? ' checked' : ''}">
+        <i class="ti ti-check"></i>
+      </div>
+    </div>
+  `).join('');
+  const pct = Math.round((done.size / 12) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = done.size + ' of 12 weeks complete';
+}
+
+function toggle(n) {
+  if (done.has(n)) done.delete(n); else done.add(n);
+  save();
+  render();
+}
+
+function filter(f, btn) {
+  current = f;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
